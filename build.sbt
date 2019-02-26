@@ -1,5 +1,4 @@
-import PlayCrossCompilation._
-import play.core.PlayVersion
+import PlayCrossCompilation.{dependencies, playCrossCompilationSettings}
 import sbt.Keys._
 import sbt._
 
@@ -7,7 +6,6 @@ val libName = "play-partials"
 
 val compileDependencies =  dependencies(
   shared = Seq(
-    filters,
     "com.google.guava"   %  "guava"              % "19.0",
     // force dependencies due to security flaws found in jackson-databind < 2.9.x using XRay
     "com.fasterxml.jackson.core"     % "jackson-core"            % "2.9.7",
@@ -20,10 +18,12 @@ val compileDependencies =  dependencies(
   ),
   play25 = Seq(
     "com.typesafe.play" %% "play" %  "2.5.19",
+    "com.typesafe.play" %% "filters-helpers" % "2.5.19",
     "uk.gov.hmrc" %% "http-verbs" % "9.1.0-play-25"
   ),
   play26 = Seq(
     "com.typesafe.play" %% "play" % "2.6.20",
+    "com.typesafe.play" %% "filters-helpers" % "2.6.20",
     "uk.gov.hmrc" %% "http-verbs" % "9.1.0-play-26"
   )
 )
@@ -49,9 +49,9 @@ lazy val playPartials = Project(libName, file("."))
   .settings(
     majorVersion := 6,
     makePublicallyAvailableOnBintray := true,
-    scalaVersion := "2.11.7",
+    scalaVersion := "2.11.12",
     libraryDependencies ++= compileDependencies ++ testDependencies,
-    crossScalaVersions := Seq("2.11.7"),
+    crossScalaVersions := Seq("2.11.12"),
     resolvers := Seq(
       Resolver.bintrayRepo("hmrc", "releases"),
       "typesafe-releases" at "http://repo.typesafe.com/typesafe/releases/"
